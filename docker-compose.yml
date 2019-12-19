@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: '3'
+
+services:
+  chat:
+    build: .
+    volumes:
+    - chat_rooms:/usr/src/app/rooms
+    ports:
+     - "8080:5000"
+    networks:
+     - mynet
+networks:
+  mynet:
+volumes:
+  chat_rooms:
