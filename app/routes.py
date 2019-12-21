@@ -5,6 +5,7 @@ from flask import request, render_template
 
 indexPath = "/usr/src/app/index.html"
 roomPath = "/usr/src/app/rooms/"
+containerId = "/usr/src/app/containerId.txt"
 
 
 @app.route('/', methods=['GET'])
@@ -31,13 +32,18 @@ def room_page(room):
 
 @app.route('/api/chat/<room>', methods=['GET'])
 def chat_room_page(room):
+    if os.path.isfile(containerId):
+        with open(containerId, 'r') as f:
+            server_id = f.read()
+    else:
+        server_id = "cant find server id."
     if os.path.isfile(roomPath + room):
         with open(roomPath + room, 'r') as f:
             data = f.read()
     else:
-        return "Chat is currently empty."
+        return "Chat is currently empty. server ID - " + server_id
 
-    return data
+    return data + "server ID - " + server_id
 
 
 @app.route('/api/chat/<room>', methods=['POST'])

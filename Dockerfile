@@ -12,4 +12,4 @@ EXPOSE 5000
 
 COPY . .
 
-CMD flask run --host=0.0.0.0
+CMD cat /proc/self/cgroup | grep "docker" | sed s/\\//\\n/g | tail -1 > containerId.txt && flask run --host=0.0.0.0
